@@ -19,12 +19,12 @@ export function handler (event, context, callback) {
 
   const claims = context.clientContext && context.clientContext.user
   console.dir(context)
-  if (!claims) {
+  /*   if (!claims) {
     return callback(null, {
       statusCode: 401,
       body: 'You must be signed in to call this function'
     })
-  }
+  } */
   try {
     const gtoken = new GoogleToken({
       email: process.env.SERVICE_ACC_ID,
@@ -35,11 +35,11 @@ export function handler (event, context, callback) {
     gtoken
       .getToken()
       .then(accessToken => {
-        console.log(accessToken)
+        console.log(`access token: ${accessToken}`)
         const valueInputOption = 'USER_ENTERED'
         const sheets = google.sheets({ version: 'v4' })
         const rowValues = JSON.parse(event.body)
-        console.log(rowValues.row)
+        console.log(`recieved body: ${rowValues} \nParsed: ${rowValues.row}`)
         let body = {
           values: [rowValues.row]
         }
@@ -51,10 +51,13 @@ export function handler (event, context, callback) {
             },
             spreadsheetId: '1fIEKhFIa9aRkGTM5NxesoNWBcG57-zExbkp7JtKNAtI',
             valueInputOption,
-            range: 'A2',
+            range: 'A1',
             resource: body
           },
           (err, resp) => {
+            console.log(
+              `response from googleapis: ${resp}\n ${err ? 'err:' + err : ''}`
+            )
             if (err) {
               callback(null, {
                 statusCode: 500,

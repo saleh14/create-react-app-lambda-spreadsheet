@@ -29,6 +29,9 @@ class SlackMessage extends Component {
     // testing fields to value format
 
     const { fields } = this.state
+    console.log(fields)
+
+    console.log(fields)
     const row = Object.keys(fields).reduce(
       (row, k) => row.concat([fields[k]]),
       []
