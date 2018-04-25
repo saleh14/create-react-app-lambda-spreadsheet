@@ -1,4 +1,5 @@
-let dotenv = require('dotenv').config()
+console.log('begining of the function')
+// let dotenv = require('dotenv').config()
 const { google } = require('googleapis')
 const { GoogleToken } = require('gtoken')
 const slackURL =
